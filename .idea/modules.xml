@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TestDBConnection.iml" filepath="$PROJECT_DIR$/TestDBConnection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HWsSQLScripts.iml" filepath="$PROJECT_DIR$/HWsSQLScripts.iml" />
     </modules>
   </component>
 </project>
