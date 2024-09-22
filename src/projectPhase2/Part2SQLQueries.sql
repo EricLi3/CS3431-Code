@@ -22,9 +22,10 @@ GROUP BY P.PATIENTSSN;
 ------- Q4 ---------
 --Report the number of visits done for each patient, i.e., for each patient, report the
 --patient SSN, first and last names, and the count of visits done by this patient.
-SELECT PatientSSN, PatientFName, PatientLName,
-(SELECT COUNT(*) FROM Admission A WHERE A.PatientSSN = P.PatientSSN) AS NumberofVisits
-FROM Patient P; WHERE
+SELECT PatientSSN, PatientFName, PatientLName, count(ADMISSIONNUM)
+FROM Patient, Admission
+Where Patient.SSN = Admission.PatientSSN
+GROUP BY PatientSSN, PatientFName, PatientLName;
 
 ------- Q5 ---------
 
