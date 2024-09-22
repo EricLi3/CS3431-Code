@@ -27,7 +27,7 @@ SELECT PatientSSN, PatientFName, PatientLName,
 FROM Patient P; WHERE
 
 ------- Q5 ---------
-
+sss
 ------- Q6 ---------
 
 ------- Q7 ---------
