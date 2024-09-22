@@ -5,6 +5,7 @@
     <file url="file://$PROJECT_DIR$/src/hw4/hw4Part1Scripts.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/projectPhase2/AllSQLCombined.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/projectPhase2/CreateTables.sql" dialect="GenericSQL" />
-    <file url="file://$PROJECT_DIR$/src/projectPhase2/InsertData.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/projectPhase2/Part2SQLQueries.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/projectPhase2/Part3InsertData.sql" dialect="GenericSQL" />
   </component>
 </project>
