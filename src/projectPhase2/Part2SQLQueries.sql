@@ -20,19 +20,9 @@ WHERE P.PATIENTSSN = A.PATIENTSSN
 GROUP BY P.PATIENTSSN;
 
 ------- Q4 ---------
--- Report the number of visits done for each patient, i.e., for each patient, report the
--- patient SSN, first and last names, and the count of visits done by this patient.
-SELECT P.PatientSSN, P.PatientFName, P.PatientLName, count(ADMISSIONNUM)
-FROM Patient P, Admission A
-Where P.PatientSSN = A.PatientSSN
-GROUP BY P.PatientSSN, P.PatientFName, P.PatientLName;
-
 ------- Q5 ---------
--- Report the room number that has an equipment unit with serial number ‘A01-02X’.
-SELECT R.Num
-FROM Room R, Equipment E
-WHERE R.Num = E.RoomNumber
-AND E.SerialNum = 'A01-02X';
+
+
 ------- Q6 ---------
 -- Report the employee who has access to the largest number of rooms.
 -- We need the employee ID, and the number of rooms they can access.
