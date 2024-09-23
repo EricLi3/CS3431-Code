@@ -74,6 +74,11 @@ WHERE P.PatientSSN = A.PatientSSN
   AND A.FutureVisitDate IS NOT NULL;
 
 ------- Q9 ---------
+--Report all equipment types that have less than two technicians that can maintain them.
+SELECT EQUIPMENTTYPE
+FROM CANREPAIREQUIPMENT
+GROUP BY EQUIPMENTTYPE
+HAVING Count(EMPLOYEEID) < 2;
 
 ------- Q10 ---------
 
