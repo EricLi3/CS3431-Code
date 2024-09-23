@@ -20,15 +20,22 @@ WHERE P.PATIENTSSN = A.PATIENTSSN
 GROUP BY P.PATIENTSSN;
 
 ------- Q4 ---------
---Report the number of visits done for each patient, i.e., for each patient, report the
---patient SSN, first and last names, and the count of visits done by this patient.
-SELECT PatientSSN, PatientFName, PatientLName,
-(SELECT COUNT(*) FROM Admission A WHERE A.PatientSSN = P.PatientSSN) AS NumberofVisits
-FROM Patient P;
-
 ------- Q5 ---------
-sss
+
+
 ------- Q6 ---------
+-- Report the employee who has access to the largest number of rooms.
+-- We need the employee ID, and the number of rooms they can access.
+-- Note: If there are several employees with the same maximum number, then report all of these employees.
+SELECT RoomAccess.EmployeeID, COUNT(RoomAccess.RoomNum) AS RoomCount
+FROM RoomAccess
+GROUP BY RoomAccess.EmployeeID
+HAVING COUNT(RoomAccess.RoomNum) = (
+    SELECT MAX(RoomCount)
+    FROM (SELECT COUNT(RoomNum) AS RoomCount
+          FROM RoomAccess
+          GROUP BY EmployeeID)
+);
 
 ------- Q7 ---------
 
