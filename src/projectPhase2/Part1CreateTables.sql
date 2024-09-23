@@ -4,13 +4,17 @@ CREATE TABLE Employee (
   LName VARCHAR(50) NOT NULL,
   Salary DECIMAL(10, 2) NOT NULL CHECK ( Salary >= 0 ),
   jobTitle VARCHAR(100) NOT NULL,
-  OfficeNum NUMBER,
+  OfficeNum VARCHAR(10),
   empRank NUMBER NOT NULL CHECK ( empRank IN (0,1,2)), -- Rank of the employee: 0 for Regular, 1 for Division Manager, 2 for General Manager
   SupervisorID NUMBER,
   AddressStreet VARCHAR(100) NOT NULL,
   AddressCity VARCHAR(50) NOT NULL,
   CONSTRAINT supervisorID_fk FOREIGN KEY (SupervisorID) REFERENCES Employee(ID)
 );
+
+DROP TABLE Employee;
+-- ALTER TABLE EMPLOYEE MODIFY OFFICENUM VARCHAR2(10);
+
 
 CREATE TABLE Doctor (
     EmployeeID NUMBER PRIMARY KEY,
@@ -68,7 +72,7 @@ CREATE TABLE RoomAccess (
     EmployeeID NUMBER,
     CONSTRAINT roomAccess_pk PRIMARY KEY (RoomNum, EmployeeID),
     CONSTRAINT roomAccessRoomNUM_fk FOREIGN KEY (RoomNum) REFERENCES Room(Num),
-    CONSTRAINT roomAccessEmpID_fk FOREIGN KEY (RoomNum) REFERENCES Employee(ID)
+    CONSTRAINT roomAccessEmpID_fk FOREIGN KEY (EmployeeID) REFERENCES Employee(ID)
 );
 
 CREATE TABLE Patient (

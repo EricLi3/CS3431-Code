@@ -50,8 +50,28 @@ HAVING COUNT(RoomAccess.RoomNum) = (
 );
 
 ------- Q7 ---------
+-- Report the number of regular employees, division managers, and general managers in
+-- the hospital.
+SELECT
+    CASE  -- For Type Column
+        WHEN empRank = 0 THEN 'Regular Employees'
+        WHEN empRank = 1 THEN 'Division Managers'
+        WHEN empRank = 2 THEN 'General Managers'
+        END AS Type,
+
+    COUNT(*) AS Count -- For Count Column
+FROM Employee
+GROUP BY empRank
+ORDER BY empRank;
 
 ------- Q8 ---------
+--For patients who have a scheduled future visit (which is part of their most recent visit),
+--report that patient's SSN, first name, and last name, and the visit date.
+--Do not report patients who do not have a scheduled visit.
+SELECT P.PATIENTSSN, P.PATIENTFNAME, P.PATIENTLNAME,A.ADMISSIONDATE
+FROM Admission A, Patient P
+WHERE P.PatientSSN = A.PatientSSN
+  AND A.FutureVisitDate IS NOT NULL;
 
 ------- Q9 ---------
 
@@ -60,3 +80,4 @@ HAVING COUNT(RoomAccess.RoomNum) = (
 ------- Q11 ---------
 
 ------- Q12 ---------
+-- SHOULD BE ID = 5
