@@ -20,7 +20,19 @@ WHERE P.PATIENTSSN = A.PATIENTSSN
 GROUP BY P.PATIENTSSN;
 
 ------- Q4 ---------
+--Report the number of visits done for each patient, i.e., for each patient, report the
+--patient SSN, first and last names, and the count of visits done by this patient.
+
+SELECT P.PATIENTSSN, P.PATIENTFNAME, P.PATIENTTELNUM, count(ADMISSIONNUM)
+FROM Patient P, Admission A
+Where P.PATIENTSSN = A.PatientSSN
+GROUP BY P.PATIENTSSN, P.PATIENTFNAME, P.PATIENTTELNUM;
+
 ------- Q5 ---------
+--Report the room number that has an equipment unit with serial number ‘A01-02X’.
+SELECT E.ROOMNUMBER
+FROM EQUIPMENT E
+WHERE E.SERIALNUM = 'A01-02X';
 
 
 ------- Q6 ---------
