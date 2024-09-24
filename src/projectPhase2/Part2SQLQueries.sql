@@ -85,4 +85,10 @@ HAVING Count(EMPLOYEEID) < 2;
 ------- Q11 ---------
 
 ------- Q12 ---------
--- SHOULD BE ID = 5
+SELECT TYPEID
+FROM EQUIPMENT
+WHERE purchaseyear = 2010
+INTERSECT
+SELECT TYPEID
+FROM EQUIPMENT
+WHERE purchaseyear = 2011;
