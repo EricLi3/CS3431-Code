@@ -12,10 +12,6 @@ CREATE TABLE Employee (
   CONSTRAINT supervisorID_fk FOREIGN KEY (SupervisorID) REFERENCES Employee(ID)
 );
 
--- DROP TABLE Employee;
--- -- ALTER TABLE EMPLOYEE MODIFY OFFICENUM VARCHAR2(10);
-
-
 CREATE TABLE Doctor (
     EmployeeID NUMBER PRIMARY KEY,
     Gender CHAR(1) NOT NULL CHECK ( Gender IN ('M', 'F')),
