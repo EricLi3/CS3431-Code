@@ -81,20 +81,24 @@ GROUP BY EQUIPMENTTYPE
 HAVING Count(EMPLOYEEID) < 2;
 
 ------- Q10 ---------
+-- Report the date of the coming future visit for patient with SSN = 111-22-3333.
 SELECT FUTUREVISITDATE
 FROM Admission
 WHERE PatientSSN = '111-22-3333'
 ORDER BY AdmissionDate DESC
     FETCH FIRST 1 ROWS ONLY;
 ------- Q11 ---------
+-- For patient with SSN = 111-22-3333, report the doctors (only ID) who have examined this patient more than 2 times.
 SELECT E.DOCTORID
 FROM EXAMINE E, ADMISSION A
 WHERE A.PATIENTSSN = '111-22-3333'
 GROUP BY A.PATIENTSSN, E.DOCTORID
 HAVING count(*) > 2;
 
--- SHOULD BE ID = 5
 ------- Q12 ---------
+-- Report the equipment types (only the ID) for which the hospital has purchased
+-- equipment (units) in both 2010 and 2011. Do not report duplication.
+
 SELECT TYPEID
 FROM EQUIPMENT
 WHERE purchaseyear = 2010
