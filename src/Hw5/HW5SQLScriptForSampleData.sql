@@ -1,0 +1,96 @@
+-- DROP TABLE PC;
+
+-- DROP TABLE Laptop;
+
+-- DROP TABLE Product;
+
+
+CREATE TABLE Product(
+	model CHAR(10) PRIMARY KEY,
+	manufacturer CHAR(10),
+	type CHAR(10)
+);
+
+ALTER TABLE PRODUCT
+    ADD CONSTRAINT check_type CHECK (type IN ('PC', 'Laptop'));
+
+-- CHECK TO SEE IF CONSTRAINT WORKS. IT does.
+-- INSERT INTO Product
+-- VALUES('1012', 'P','Test');
+
+CREATE TABLE PC(
+	model CHAR(10) PRIMARY KEY,
+	speed INT,
+	ram INT,
+	hd INT,
+	rd CHAR(10),
+	price INT,
+        FOREIGN KEY (model) REFERENCES Product(model)
+);
+
+
+CREATE TABLE Laptop(
+	model CHAR(10) PRIMARY KEY,
+	speed INT,
+	ram INT,
+	hd INT,
+	screen number(4,2),
+	price INT,
+        FOREIGN KEY (model) REFERENCES Product(model)
+);
+
+ALTER TABLE LAPTOP
+    ADD CONSTRAINT check_laptop_price check ( PRICE >= 500 );
+
+-- CHECK TO SEE IF CONSTRAINT WORKS. IT does.
+-- INSERT INTO LAPTOP
+-- VALUES('1000', 5000, 32, 1080, 15, 20);
+
+-- ________________________________________
+INSERT INTO Product
+VALUES('1000', 'E','PC');
+
+INSERT INTO Product
+VALUES('2002','A','Laptop');
+
+INSERT INTO Product
+VALUES('2004','A','Laptop');
+
+INSERT INTO Product
+VALUES('2006','A','Laptop');
+
+INSERT INTO Product
+VALUES('1002','B','PC');
+
+INSERT INTO Product
+VALUES('1003','B','PC');
+
+INSERT INTO Product
+VALUES('1004','C','PC');
+
+INSERT INTO Product
+VALUES('2005','B','Laptop');
+
+INSERT INTO PC
+VALUES('1000',700,64,10,'48xCD',799);
+
+INSERT INTO PC
+VALUES('1002',1500,128,60,'12xDVD',2499);
+
+INSERT INTO PC
+VALUES('1003',700,64,10,'8xDVD',899);
+
+INSERT INTO PC
+VALUES('1004',700,64,10,'6xDVD',759);
+
+INSERT INTO Laptop
+VALUES('2002',700,64,5,12.1,1488);
+
+INSERT INTO Laptop
+VALUES('2004',850,64,10,15.1,2583);
+
+INSERT INTO Laptop
+VALUES('2005',800,96,10,15.1,1999);
+
+INSERT INTO Laptop
+VALUES('2006',850,64,10,15.1,2584);
