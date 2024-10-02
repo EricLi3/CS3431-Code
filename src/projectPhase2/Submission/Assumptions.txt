@@ -1,0 +1,3 @@
+Assume that office numbers are separate from a Room.
+
+A room is where a patient can go

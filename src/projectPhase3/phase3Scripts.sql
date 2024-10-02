@@ -18,3 +18,25 @@ CREATE OR REPLACE VIEW CriticalCases AS
 
     GROUP BY PATIENTSSN, PATIENTFNAME, PATIENTLNAME
     HAVING count(PATIENTSSN) >= 2;
+
+/*Create a view named DoctorsLoad that reports for each doctor whether this doctor has an overload or not.
+  A doctor has an overload if they have more than 10 distinct admission cases; otherwise, the doctor has an underload.
+  Notice that if a doctor examined a patient multiple times in the same admission, that still counts as one admission case.
+  The view columns should be: DoctorID, graduatedFrom, load.*/
+
+CREATE OR REPLACE VIEW DoctorsLoad AS
+SELECT
+    Doctor.EmployeeID AS DoctorID,
+    Doctor.GraduatedFrom,
+    CASE
+        WHEN (SELECT COUNT(DISTINCT Examine.AdmissionNUM) -- If the admission_num dup, then only count once
+              FROM Examine
+              WHERE Examine.DoctorID = Doctor.EmployeeID) > 10 -- If more than 10 distinct admissions, the doctor is overloaded
+
+            THEN 'Overloaded'
+            ELSE 'Underloaded'
+        END
+        AS load
+FROM Doctor;
+
+
