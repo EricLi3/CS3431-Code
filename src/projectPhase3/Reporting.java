@@ -8,8 +8,8 @@ public class Reporting {
     public static void main(String[] args) throws SQLException {
         String userName = null;
         String password = null;
-        if(args.length != 2){
-            System.err.println("USAGE: java Reporting <username> <password>");
+        if(args.length < 2){
+            System.err.println("USAGE: java Reporting <username> <password> [Option]");
             return;
         }
         else{
@@ -38,6 +38,27 @@ public class Reporting {
             System.out.println("Connection Failed! Check output console");
             e.printStackTrace();
             return;
+        }
+
+        // Now we have the program options
+        if(Integer.parseInt(args[2]) == 1){
+            //Reporting Patients Basic Info.
+
+        }
+        else if(Integer.parseInt(args[2]) == 2){
+            //Reporting Doctors Basic Info
+
+        }
+        else if(Integer.parseInt(args[2]) == 3){
+            //Reporting Admissions Info
+
+        }
+        else if(Integer.parseInt(args[2]) == 4){
+            //Updating Admission Payment
+
+        }
+        else{
+            System.err.println("Options must be of [1, 2, 3, 4]");
         }
 
         connection.close();
