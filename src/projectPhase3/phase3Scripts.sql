@@ -1,3 +1,4 @@
+--Part 1 Views--
 ----1. Create a view named CriticalCases that selects the patients who have been admitted to
 -- Intensive Care Unit (ICU) at least 2 times.
 -- The view columns should be: Patient_SSN, firstName, lastName, numberOfAdmissionsToICU
@@ -19,6 +20,7 @@ CREATE OR REPLACE VIEW CriticalCases AS
     GROUP BY PATIENTSSN, PATIENTFNAME, PATIENTLNAME
     HAVING count(PATIENTSSN) >= 2;
 
+--2.
 /*Create a view named DoctorsLoad that reports for each doctor whether this doctor has an overload or not.
   A doctor has an overload if they have more than 10 distinct admission cases; otherwise, the doctor has an underload.
   Notice that if a doctor examined a patient multiple times in the same admission, that still counts as one admission case.
@@ -38,5 +40,53 @@ SELECT
         END
         AS load
 FROM Doctor;
+
+--3.
+/*Use the views created above (you may need the original tables as well) to report the critical-case patients
+  with number of admissions to ICU greater than 4.*/
+SELECT Patient_SSN, firstName, LastName
+FROM CriticalCases
+WHERE numberOfAdmissionsToICU > 4;
+
+--4.
+/*Use the views created above (you may need the original tables as well) to report the overloaded doctors that graduated from WPI.
+  You should report the doctor ID, firstName, and lastName*/
+SELECT
+    Doctor.EmployeeID AS DoctorID,
+    Employee.FName AS firstName,
+    Employee.LName AS lastName
+FROM
+    Doctor, Employee
+WHERE
+    Doctor.EmployeeID IN (
+        SELECT DoctorID
+        FROM DoctorsLoad
+        WHERE load = 'Overloaded'
+    )
+  AND Doctor.EmployeeID = Employee.ID
+  AND Doctor.GraduatedFrom = 'WPI';
+
+--5.
+/*Use the views created above (you may need the original tables as well) to report the comments inserted by underloaded doctors when
+  examining critical-case patients. You should report the doctor Id, patient SSN, and the comment.*/
+SELECT
+    Doctor.EmployeeID AS DoctorID, -- From filtered underloaded & CriticalCase, display this info
+    Patient.PatientSSN AS PatientSSN,
+    Examine.EXAMCOMMENT AS ExamComment
+FROM
+    Examine, Doctor, Admission, Patient
+WHERE
+    Examine.DoctorID = Doctor.EmployeeID--Doctor ID Matches For examination
+  AND Examine.AdmissionNUM = Admission.AdmissionNum--AdmissionNum Matches
+  AND Admission.PatientSSN = Patient.PatientSSN --PatientSSNs match
+  AND Doctor.EmployeeID IN (
+    SELECT DoctorID
+    FROM DoctorsLoad
+    WHERE load = 'Underloaded'--finds underloaded doctors
+    )
+  AND Admission.AdmissionNum IN (
+    SELECT Patient_SSN
+    FROM CriticalCases -- finds Critical Cases
+    );
 
 
