@@ -70,23 +70,23 @@ WHERE
 /*Use the views created above (you may need the original tables as well) to report the comments inserted by underloaded doctors when
   examining critical-case patients. You should report the doctor Id, patient SSN, and the comment.*/
 SELECT
-    Doctor.EmployeeID AS DoctorID, -- From filtered underloaded & CriticalCase, display this info
+    Doctor.EmployeeID AS DoctorID,
     Patient.PatientSSN AS PatientSSN,
     Examine.EXAMCOMMENT AS ExamComment
 FROM
-    Examine, Doctor, Admission, Patient
+    Examine, Doctor, Admission, Patient, CriticalCases, DoctorsLoad
 WHERE
-    Examine.DoctorID = Doctor.EmployeeID--Doctor ID Matches For examination
-  AND Examine.AdmissionNUM = Admission.AdmissionNum--AdmissionNum Matches
-  AND Admission.PatientSSN = Patient.PatientSSN --PatientSSNs match
+        Examine.DoctorID = Doctor.EmployeeID  -- Match Doctor ID
+  AND Examine.AdmissionNUM = Admission.AdmissionNum  -- Match Admission number
+  AND Admission.PatientSSN = Patient.PatientSSN  -- Match Patient SSN
   AND Doctor.EmployeeID IN (
     SELECT DoctorID
     FROM DoctorsLoad
-    WHERE load = 'Underloaded'--finds underloaded doctors
-    )
-  AND Admission.AdmissionNum IN (
+    WHERE load = 'Underloaded'  -- Filter for underloaded doctors
+)
+  AND Patient.PatientSSN IN (
     SELECT Patient_SSN
-    FROM CriticalCases -- finds Critical Cases
-    );
+    FROM CriticalCases  -- Filter for critical case patients
+);
 
 
