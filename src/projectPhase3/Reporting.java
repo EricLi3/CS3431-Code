@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 public class Reporting {
     public static void main(String[] args) throws SQLException {
-        String userName = null;
-        String password = null;
+        String userName;
+        String password;
         if (args.length == 2) {
             System.err.println("USAGE: java Reporting <username> <password> [Option]\n" +
                     "1- Report Patients Basic Information\n" +
@@ -23,10 +23,8 @@ public class Reporting {
             try {
                 Class.forName("oracle.jdbc.driver.OracleDriver");
             } catch (ClassNotFoundException e) {
-                System.out.println("Where is your Oracle JDBC Driver? Did you follow the execution steps. ");
-                System.out.println("");
-                System.out.println("*****Open the file and read the comments in the beginning of the file****");
-                System.out.println("");
+                System.out.println("Where is your Oracle JDBC Driver? Did you follow the execution steps.\n");
+                System.out.println("*****Open the file and read the comments in the beginning of the file****\n");
                 e.printStackTrace();
                 return;
             }

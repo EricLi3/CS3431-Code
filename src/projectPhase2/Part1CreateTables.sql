@@ -94,7 +94,6 @@ CREATE TABLE Examine (
     DoctorID NUMBER,
     AdmissionNUM NUMBER,
     ExamComment CLOB NOT NULL, -- assume each examination must have some comment related to it
-    CONSTRAINT examination_pk PRIMARY KEY (DoctorID, AdmissionNUM),
     CONSTRAINT examiningDoctorID_fk FOREIGN KEY (DoctorID) REFERENCES Doctor(EmployeeID),
     CONSTRAINT examinationAdmissionNum_fk FOREIGN KEY (AdmissionNUM) REFERENCES Admission(AdmissionNum)
 );

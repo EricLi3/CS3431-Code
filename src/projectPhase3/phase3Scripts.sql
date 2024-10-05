@@ -89,4 +89,4 @@ WHERE
     FROM CriticalCases  -- Filter for critical case patients
 );
 
-
+--Part 2 Triggers--
