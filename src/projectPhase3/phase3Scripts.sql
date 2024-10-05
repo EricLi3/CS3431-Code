@@ -69,10 +69,10 @@ WHERE
 --5.
 /*Use the views created above (you may need the original tables as well) to report the comments inserted by underloaded doctors when
   examining critical-case patients. You should report the doctor Id, patient SSN, and the comment.*/
-SELECT
+SELECT DISTINCT
     Doctor.EmployeeID AS DoctorID,
     Patient.PatientSSN AS PatientSSN,
-    Examine.EXAMCOMMENT AS ExamComment
+    DBMS_LOB.SUBSTR(Examine.EXAMCOMMENT, 4000, 1) AS ExamComment
 FROM
     Examine, Doctor, Admission, Patient, CriticalCases, DoctorsLoad
 WHERE
