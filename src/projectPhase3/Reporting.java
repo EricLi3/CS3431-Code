@@ -22,7 +22,6 @@ public class Reporting {
             userName = args[0];
             password = args[1];
 
-
             try {
                 Class.forName("oracle.jdbc.driver.OracleDriver");
             } catch (ClassNotFoundException e) {
@@ -171,9 +170,7 @@ public class Reporting {
                     Date fromDate = roomResults.getDate("STARTDATE");
                     Date toDate = roomResults.getDate("ENDDATE");
 
-                    System.out.println("RoomNum: " + roomNum);
-                    System.out.println("FromDate: " + fromDate);
-                    System.out.println("ToDate: " + toDate);
+                    System.out.println("    RoomNum: " + roomNum + "    FromDate: " + fromDate + "  ToDate: " + toDate);
                 }
 
 
@@ -183,7 +180,7 @@ public class Reporting {
                 while (examineResults.next()) {
                     int doctorID = examineResults.getInt("DOCTORID");
 
-                    System.out.println("Doctor ID: " + doctorID);
+                    System.out.println("    Doctor ID: " + doctorID);
                 }
 
             } else if (Integer.parseInt(args[2]) == 4) {
