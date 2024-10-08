@@ -11,7 +11,7 @@ public class Reporting {
         String userName;
         String password;
         Connection connection = null;
-        if (args.length == 2) {
+        if (args.length < 3) {
             System.err.println("USAGE: java Reporting <username> <password> [Option]\n" +
                     "1- Report Patients Basic Information\n" +
                     "2- Report Doctors Basic Information\n" +
@@ -212,4 +212,3 @@ public class Reporting {
         }
     }
 }
-
