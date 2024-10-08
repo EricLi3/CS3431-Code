@@ -203,9 +203,7 @@ public class Reporting {
                 updateStatement.setInt(2, admissionNum);
 
                 updateStatement.executeQuery();
-
-//            updateStatement.close();
-
+                updateStatement.close();
             } else {
                 System.err.println("Options must be of [1, 2, 3, 4]");
             }
