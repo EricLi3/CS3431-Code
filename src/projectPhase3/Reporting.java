@@ -58,7 +58,7 @@ public class Reporting {
                 ResultSet resultSet = preparedStatement.executeQuery();
 
                 // Process the results and print the patient information
-                while (resultSet.next()) {
+                if (resultSet.next()) {
                     String patientSSN = resultSet.getString("PATIENTSSN");
                     String patientFName = resultSet.getString("PATIENTFNAME");
                     String patientLName = resultSet.getString("PATIENTLNAME");
@@ -68,6 +68,8 @@ public class Reporting {
                     System.out.println("Patient First Name: " + patientFName);
                     System.out.println("Patient Last Name: " + patientLName);
                     System.out.println("Patient Address: " + patientAddress);
+                } else {
+                    System.out.println("Patient with SSN " + ssn + " not found.");
                 }
 
                 // Close the resources
@@ -113,8 +115,6 @@ public class Reporting {
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
-                } finally {
-                    // Scanner doesn't need explicit closing
                 }
 
 
@@ -180,26 +180,38 @@ public class Reporting {
                 ResultSet examineResults = examineStatement.executeQuery();
 
                 System.out.println("Doctors examined the patient in this admission:");
-                while(examineResults.next()){
+                while (examineResults.next()) {
                     int doctorID = examineResults.getInt("DOCTORID");
 
                     System.out.println("Doctor ID: " + doctorID);
                 }
 
+            } else if (Integer.parseInt(args[2]) == 4) {
+                //Updating Admission Payment
+                Scanner scanner = new Scanner(System.in);
+                System.out.print("Enter Admission Number: ");
+                int admissionNum = scanner.nextInt();
+
+                Scanner scanner2 = new Scanner(System.in);
+                System.out.print("Enter the new total payment: ");
+                int newTotal = scanner.nextInt();
+
+                String query = "UPDATE ADMISSION SET TOTALPAYMENT = ? WHERE ADMISSIONNUM = ?";
+
+                PreparedStatement updateStatement = connection.prepareStatement(query);
+                updateStatement.setDouble(1, newTotal);
+                updateStatement.setInt(2, admissionNum);
+
+                updateStatement.executeQuery();
+
+//            updateStatement.close();
+
             } else {
-                System.out.println("Admisison number not found.");
+                System.err.println("Options must be of [1, 2, 3, 4]");
             }
 
-
-        } else if (Integer.parseInt(args[2]) == 4) {
-            //Updating Admission Payment
-
-
-        } else {
-            System.err.println("Options must be of [1, 2, 3, 4]");
+            connection.close();
         }
-
-        connection.close();
     }
-    }
+}
 

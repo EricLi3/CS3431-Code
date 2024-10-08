@@ -26,3 +26,18 @@ Then your program should update the total payment value for the specified admiss
 number in the database.
 //Now if you execute option 3 again, you should get the new payment value
 */
+
+UPDATE ADMISSION SET TOTALPAYMENT = 10000.00 WHERE ADMISSIONNUM = 1;
+
+
+
+
+
+
+
+
+
+
+
+
+
