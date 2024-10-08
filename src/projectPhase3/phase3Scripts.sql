@@ -1,3 +1,11 @@
+DROP TRIGGER NewEquipmentCheck;
+DROP TRIGGER EmployeeHierarchyCeiling;
+DROP TRIGGER EmployeeHierarchy;
+DROP TRIGGER SetInsurance;
+DROP TRIGGER requireComment;
+DROP VIEW CriticalCases;
+DROP VIEW DoctorsLoad;
+
 --Part 1 Views--
 ----1. Create a view named CriticalCases that selects the patients who have been admitted to
 -- Intensive Care Unit (ICU) at least 2 times.
@@ -99,16 +107,19 @@ room, and a 1-day stay in a room designated as an ICU. If a doctor was to visit 
 during this admission, then they must leave a comment*/
 CREATE TRIGGER requireComment
     BEFORE INSERT ON EXAMINE
-    WHEN ((SELECT COUNT(SERVICE)
-           FROM ROOMSERVICE, (SELECT ROOMNUM
-                              FROM STAYIN
-                              WHERE ADMISSIONNUM = new.ADMISSIONNUM)
-           WHERE SERVICE = 'ICU') > 0)
+    FOR EACH ROW
+    DECLARE numICUVisits int;
     BEGIN
-        IF(EXAMCOMMENT IS NULL) THEN
-            RAISE_APPLICATION_ERROR(-20004, 'Doctor comment required');
-        END IF;
-    END;
+         SELECT COUNT(SERVICE)
+         INTO numICUVisits
+         FROM ROOMSERVICE, (SELECT ROOMNUM
+                            FROM STAYIN
+                            WHERE ADMISSIONNUM = :new.ADMISSIONNUM)
+         WHERE SERVICE = 'ICU';
+    IF(:new.EXAMCOMMENT = '') AND (numICUVisits > 0) THEN
+        RAISE_APPLICATION_ERROR(-20004, 'Doctor comment required');
+    END IF;
+END;
 /* The insurance payment should be calculated automatically as 65% of the total payment.
    If the total payment changes, then the insurance amount should also change.*/
 CREATE TRIGGER SetInsurance
@@ -122,21 +133,23 @@ CREATE TRIGGER SetInsurance
    Division managers must have supervisors at all times. General Managers must not have any supervisors.*/
 CREATE TRIGGER EmployeeHierarchy
     BEFORE INSERT OR UPDATE ON EMPLOYEE
+    FOR EACH ROW
     WHEN (new.EMPRANK = 0 OR new.EMPRANK = 1)
-    DECLARE SupervisorRank int;
-    BEGIN
-        SupervisorRank = (SELECT E.EMPRANK FROM EMPLOYEE E WHERE new.SUPERVISORID = E.ID);
-        IF (SupervisorRank != new.EMPRANK + 1) THEN
-            RAISE_APPLICATION_ERROR(-20004, 'Incorrect supervisor rank. Supervisor ranks must be one higher than the employees ' ||
-                                            'own rank for regular employees and division managers.');
-        END IF;
-    END;
+DECLARE SupervisorRank int;
+BEGIN
+    SELECT E.EMPRANK INTO SupervisorRank FROM EMPLOYEE E WHERE :new.SUPERVISORID = E.ID;
+    IF (SupervisorRank != :new.EMPRANK + 1) THEN
+        RAISE_APPLICATION_ERROR(-20004, 'Incorrect supervisor rank. Supervisor ranks must be one higher than the employees ' ||
+                                        'own rank for regular employees and division managers.');
+    END IF;
+END;
 
 CREATE TRIGGER EmployeeHierarchyCeiling
        BEFORE INSERT OR UPDATE ON EMPLOYEE
+    FOR EACH ROW
     WHEN (new.EMPRANK = 2)
     BEGIN
-        IF (new.SUPERVISORID IS NOT NULL) THEN
+        IF (:new.SUPERVISORID IS NOT NULL) THEN
             RAISE_APPLICATION_ERROR(-20004, 'General managers can not have supervisors');
         END IF;
     END;
@@ -149,9 +162,18 @@ CREATE TRIGGER EmployeeHierarchyCeiling
    check if there is an equipment technician who can service it. If there is, update the inspection date. */
 CREATE TRIGGER NewEquipmentCheck
     BEFORE INSERT ON EQUIPMENT
-    BEGIN
-        IF (SYSDATE - EQUIPMENT.LASTINSPECTION > 31) THEN
+    FOR EACH ROW
+DECLARE technicianAmount int;
+BEGIN
+    SELECT COUNT(C.EMPLOYEEID)
+    INTO technicianAmount
+    FROM CANREPAIREQUIPMENT C
+    WHERE :new.TYPEID = C.EQUIPMENTTYPE;
 
-        END IF;
-    END;
+    IF (SYSDATE - :new.LASTINSPECTION > 31) AND (technicianAmount > 0) THEN
+        SELECT SYSDATE
+        INTO :new.LASTINSPECTION
+        FROM dual;
+    END IF;
+END;
 
