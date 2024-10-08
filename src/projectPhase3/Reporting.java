@@ -1,7 +1,5 @@
 package projectPhase3;
 
-import oracle.sql.NUMBER;
-
 import java.sql.*;
 import java.util.Scanner;
 
@@ -10,14 +8,14 @@ public class Reporting {
     public static void main(String[] args) throws SQLException {
         String userName;
         String password;
-        Connection connection = null;
+        Connection connection;
         if (args.length < 3) {
-            System.err.println("USAGE: java Reporting <username> <password> [Option]\n" +
-                    "1- Report Patients Basic Information\n" +
-                    "2- Report Doctors Basic Information\n" +
-                    "3- Report Admissions Information\n" +
-                    "4- Update Admissions Payment");
-            return;
+            System.err.println("""
+                    USAGE: java Reporting <username> <password> [Option]
+                    1- Report Patients Basic Information
+                    2- Report Doctors Basic Information
+                    3- Report Admissions Information
+                    4- Update Admissions Payment""");
         } else if (args.length == 3) {
             userName = args[0];
             password = args[1];
@@ -81,13 +79,14 @@ public class Reporting {
                 System.out.print("Enter Doctor ID: ");
                 int docID = scanner.nextInt();
 
-                String query = "SELECT DOCTOR.EMPLOYEEID, GENDER, SPECIALTY, GRADUATEDFROM, FName, LNAME\n" +
-                        "FROM DOCTOR, EMPLOYEE\n" +
-                        "WHERE EMPLOYEEID = ? AND ID = ? AND JOBTITLE = 'Doctor'";
+                String query = """
+                        SELECT DOCTOR.EMPLOYEEID, GENDER, SPECIALTY, GRADUATEDFROM, FName, LNAME
+                        FROM DOCTOR, EMPLOYEE
+                        WHERE EMPLOYEEID = ? AND ID = ? AND JOBTITLE = 'Doctor'""";
 
 
                 // Prepare the statement to prevent SQL injection
-                try (PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                     preparedStatement.setInt(1, docID);
                     preparedStatement.setInt(2, docID);
 
@@ -123,15 +122,17 @@ public class Reporting {
                 System.out.print("Enter Admission Number: ");
                 int admissionNum = scanner.nextInt();
 
-                String AdmissionQuery = "SELECT ADMISSIONNUM, PATIENTSSN, ADMISSIONDATE, TOTALPAYMENT\n" +
-                        "FROM ADMISSION\n" +
-                        "WHERE ADMISSIONNUM = ?";
+                String AdmissionQuery = """
+                        SELECT ADMISSIONNUM, PATIENTSSN, ADMISSIONDATE, TOTALPAYMENT
+                        FROM ADMISSION
+                        WHERE ADMISSIONNUM = ?""";
+
                 String RoomQuery = "SELECT ROOMNUM, STARTDATE, ENDDATE FROM STAYIN WHERE ADMISSIONNUM = ?";
                 String ExamineQuery = "SELECT DOCTORID FROM EXAMINE WHERE ADMISSIONNUM = ?";
 
-                PreparedStatement admissionStatement = null;
-                PreparedStatement roomStatement = null;
-                PreparedStatement examineStatement = null;
+                PreparedStatement admissionStatement;
+                PreparedStatement roomStatement;
+                PreparedStatement examineStatement;
 
                 // Prepare Admission Query
                 admissionStatement = connection.prepareStatement(AdmissionQuery);
@@ -189,7 +190,6 @@ public class Reporting {
                 System.out.print("Enter Admission Number: ");
                 int admissionNum = scanner.nextInt();
 
-                Scanner scanner2 = new Scanner(System.in);
                 System.out.print("Enter the new total payment: ");
                 int newTotal = scanner.nextInt();
 
