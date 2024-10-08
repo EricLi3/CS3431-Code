@@ -1,0 +1,38 @@
+For each of the requirements in Part 2, include what trigger(s) you created to enforce this requirement. You need to state the event type (Before or After), the operation (Insert, Update, or Delete), and the granularity (For each row, or For each statement) and on which table. No code should be included here.
+
+Part 2 -
+
+Question 1:
+Uses trigger requireComment
+Event type: Before
+Operation: Insert
+Granularity: For Each Row
+On Table: Examine
+
+Question 2:
+Uses trigger setInsurance
+Event type: After
+Operation: Insert OR Update
+Granularity: For Each Statement
+On Table: Admission
+
+Question 3, 4:
+Uses trigger EmployeeHierarchy and EmployeeHierarchyCeiling
+Event type: Before
+Operation: Insert OR Update
+Granularity: For Each Row
+On Table: Employee
+
+Question 5:
+Uses trigger FutureVisitDate
+Event type: Before
+Operation: Insert
+Granularity: For Each Row
+On Table: Admission
+
+Question 6:
+Uses trigger NewEquipmentCheck
+Event type: Before
+Operation: Insert
+Granularity: For Each Row
+On Table: Equipment
