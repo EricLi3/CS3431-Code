@@ -90,12 +90,13 @@ CREATE TABLE Admission (
     CONSTRAINT admittedPatientSSN_fk FOREIGN KEY (PatientSSN) REFERENCES Patient(PatientSSN)
 );
 
-CREATE TABLE Examine (
-    DoctorID NUMBER,
+CREATE TABLE Examine
+(
+    DoctorID     NUMBER,
     AdmissionNUM NUMBER,
-    ExamComment CLOB NOT NULL, -- assume each examination must have some comment related to it
-    CONSTRAINT examiningDoctorID_fk FOREIGN KEY (DoctorID) REFERENCES Doctor(EmployeeID),
-    CONSTRAINT examinationAdmissionNum_fk FOREIGN KEY (AdmissionNUM) REFERENCES Admission(AdmissionNum)
+    ExamComment  CLOB NOT NULL, -- assume each examination must have some comment related to it
+    CONSTRAINT examiningDoctorID_fk FOREIGN KEY (DoctorID) REFERENCES Doctor (EmployeeID),
+    CONSTRAINT examinationAdmissionNum_fk FOREIGN KEY (AdmissionNUM) REFERENCES Admission (AdmissionNum)
 );
 
 CREATE TABLE StayIn (

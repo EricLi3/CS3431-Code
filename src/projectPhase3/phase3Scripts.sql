@@ -90,3 +90,14 @@ WHERE
 );
 
 --Part 2 Triggers--
+-- //: You are allowed to combine several requirements into one trigger
+
+/*If a doctor visits a patient who has been in the ICU during their current admission, they
+must leave a comment. An example of this could be a patient whose admission involved a
+1 day stay in a room designated as an Emergency Room, a 2 hour stay in an operating
+room, and a 1 day stay in a room designated as an ICU. If a doctor was to visit the patient
+during this admission, then they must leave a comment*/
+
+
+
+

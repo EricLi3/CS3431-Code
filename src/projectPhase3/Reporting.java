@@ -23,7 +23,7 @@ public class Reporting {
             try {
                 Class.forName("oracle.jdbc.driver.OracleDriver");
             } catch (ClassNotFoundException e) {
-                System.out.println("Where is your Oracle JDBC Driver? Did you follow the execution steps.\n");
+                System.out.println("Where is your Oracle JDBC Driver? Did you follow the execution steps. \n");
                 System.out.println("*****Open the file and read the comments in the beginning of the file****\n");
                 e.printStackTrace();
                 return;
